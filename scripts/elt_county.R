@@ -118,3 +118,11 @@ CountyDims_UniqueCountyNames %>%
 
 CountyShapes %>%
 	sf::write_sf(file.path(dir_clean, 'county_shapes.shp'))
+
+# WKT format
+bind_cols(
+	county_geoid = CountyShapes$county_geoid,
+	county_geometry = st_as_text(CountyShapes$geometry)
+) %>%
+write_csv(file.path(dir_clean, 'county_shapes_for_upload.csv'))
+

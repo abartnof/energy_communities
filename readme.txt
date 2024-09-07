@@ -26,9 +26,11 @@ documentation:
 https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2023/TGRSHP2023_TechDoc_F-S.pdf
 appendix g3
 
+
 ###############################
 # Clean Energy Tax Credit Map #
 ###############################
 https://edx.netl.doe.gov/dataset/ira-energy-community-data-layers
 layers:
 Coal_Closures_EnergyComm_v2024_1.zip
+MSA_NMSA_EC_FFE_v2024_1.zip
