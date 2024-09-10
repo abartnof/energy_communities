@@ -16,6 +16,19 @@ https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-
 ######################
 # Census tract files #
 ######################
+Using google census files:
+SELECT DISTINCT 
+  state_name,
+  state_fips_code AS state_fips, 
+  county_fips_code AS county_fips, 
+  tract_ce AS census_tract,
+  geo_id as census_geoid
+FROM `bigquery-public-data.geo_census_tracts.us_census_tracts_national` 
+ORDER BY state_fips_code, county_fips_code, geo_id
+
+
+
+DNU:
 https://www2.census.gov/geo/tiger/TIGER_RD18/LAYER/TRACT/
 retrieved via:
 wget -r -l1 -H -t1 -nd -N -np -A.zip -erobots=off https://www2.census.gov/geo/tiger/TIGER_RD18/LAYER/TRACT/
@@ -34,3 +47,18 @@ https://edx.netl.doe.gov/dataset/ira-energy-community-data-layers
 layers:
 Coal_Closures_EnergyComm_v2024_1.zip
 MSA_NMSA_EC_FFE_v2024_1.zip
+
+
+####################################
+# IWG Report on Energy Communities #
+####################################
+
+https://edx.netl.doe.gov/dataset/?q=IWG
+
+https://edx.netl.doe.gov/dataset/datasets-for-iwg-report-on-energy-communities
+iwg_energycommunitiesdatasets_csv_april2021.zip
+
+https://edx.netl.doe.gov/dataset/section-48c-tax-credits-designated-energy-communities
+48c_data.zip
+
+
