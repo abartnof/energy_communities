@@ -3,11 +3,11 @@
 
 library(tidyverse)
 # library(skimr)
-# library(arrow)
+library(arrow)
 library(scales)
 
-# CensusJoiner <-
-# 	read_parquet('/Volumes/Extreme SSD/energy_communities/clean_input/geography/census_joiner.parquet')
+CensusJoiner <-
+	read_parquet('/Volumes/Extreme SSD/energy_communities/clean_input/geography/census_joiner.parquet')
 
 # Input <- read_csv('/Volumes/Extreme SSD/energy_communities/raw_input/Clean Energy Tax Credit Map/Coal_Closures_EnergyComm_v2024_1/IRA_EnergyComm_CTracts_CoalClosures_v2024_1.csv', col_types = 'c')
 
@@ -28,9 +28,6 @@ inspect_census_geoid_coverage <- function(input_census_geoid, CensusJoiner){
 	
 	is_match_full <- input_census_geoid %in% CensusJoiner$census_geoid
 	is_match_9 <- str_extract(input_census_geoid, '^\\d{9}') %in% str_extract(CensusJoiner$census_geoid, '^\\d{9}')
-	
-	sum_covg_full <- sum(is_match_full)
-	prop_covg_full <- sum_covg_full / total
 	
 	result_message_full <- sprintf(
 		'%s of %s census_geoids match as-is: %s', 
@@ -62,7 +59,7 @@ abbreviate_census_geoids <- function(input_census_geoid, CensusJoiner){
 	# Output: a list that can be used to join to CensusJoiner, either with
 			# full geoids or with abbreviated ones
 	
-	input_census_geoid <- Input$geoid_tract_2020
+	# input_census_geoid <- Input$geoid_tract_2020
 	geoid_9 <- str_extract(input_census_geoid, '^\\d{9}')
 	is_match_full <- input_census_geoid %in% CensusJoiner$census_geoid
 	is_match_9 <- str_extract(input_census_geoid, '^\\d{9}') %in% str_extract(CensusJoiner$census_geoid, '^\\d{9}')

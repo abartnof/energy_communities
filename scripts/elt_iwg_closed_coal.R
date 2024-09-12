@@ -17,15 +17,31 @@ CountyGeoid <-
 	unite('county_geoid', c('state_fips', 'county_fips'), sep = '', remove = FALSE)
 
 #### Munge data ####
-ClosedCoalRaw %>%
-	glimpse
 
 # OID works as uid
 ClosedCoalRaw %>%
 	count(OID_) %>%
 	filter(n > 1)
 
+# Just like IWG Retired Powerplants, we need to pad county_geoid
+ClosedCoalRaw %>%
+	select(county_geoid = County_GEOID) %>%
+	left_join(CountyGeoid, by = 'county_geoid') %>%
+	mutate(
+		county_geoid_len = str_length(county_geoid),
+		is_match = !is.na(state_fips)
+	) %>%
+	count(county_geoid_len, is_match)
+
+# confirmed-- we need to pad county_geoid on the left size with zero
+ClosedCoalRaw %>%
+	rename(county_geoid = County_GEOID) %>%
+	filter(str_length(county_geoid) < 5L) %>%
+	select(State, `State code`, county_geoid) %>%
+	sample_n(10)
+	
 # Munge data
+
 ClosedCoal <-
 	ClosedCoalRaw %>%
 	mutate(
@@ -43,14 +59,17 @@ ClosedCoal <-
 		county_geoid,
 		state_name = state
 	) %>%
-	mutate(year_closed = parse_integer(year_closed)) %>%
+	mutate(
+		year_closed = parse_integer(year_closed),
+		county_geoid = str_pad(county_geoid, side = 'left', pad = '0', width = 5L),
+	) %>%
 	inner_join(CountyGeoid, by = 'county_geoid') %>%
 	select(-county_geoid) %>%
 	relocate(state_fips, county_fips)
 
 
-# a few bad entries
-1 - (nrow(ClosedCoal) / nrow(ClosedCoalRaw))
+# QC-- all entries now match cleanly
+nrow(ClosedCoal) / nrow(ClosedCoalRaw)
 
 ClosedCoal %>%
 	write_parquet(file.path(dir_clean, 'iwg_closed_coal.parquet'))
