@@ -62,3 +62,10 @@ https://edx.netl.doe.gov/dataset/section-48c-tax-credits-designated-energy-commu
 48c_data.zip
 
 
+
+# CBSA and CSA #
+2024https://www2.census.gov/geo/tiger/TIGER2024/
+
+core based statistical area (CBSA) is an urban center with a lot of commuters coming in.
+CBSAs can be combined if they overlap (combine statistical areas, CSA)
+CBSAs are broken down based on size of central city: metropolitan/micropolitan statistical areas

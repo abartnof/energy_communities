@@ -30,20 +30,28 @@ CoalClosures <-
 	mutate(
 		dataset_name = 'clean_energy_tax_credit__coal_closures',
 		observation_id = str_c(dataset_name, rowid, sep = '_'),
-		is_mine_closure = case_when(
-			mine_closure == 'Yes' ~ TRUE,
-			mine_closure == 'No' ~ FALSE,
-			mine_closure == '#N/A' ~ as.logical(NA)),
-		is_generator_closure = case_when(
-			generator_closure == 'Yes' ~ TRUE,
-			generator_closure == 'No' ~ FALSE,
-			generator_closure == '#N/A' ~ as.logical(NA)),
-		is_adjacent_to_closure = case_when(
-			adjacent_to_closure == 'Yes' ~ TRUE,
-			adjacent_to_closure == 'No' ~ FALSE,
-			adjacent_to_closure == '#N/A' ~ as.logical(NA)),
+		mine_simple = case_when(
+			mine_closure == 'Yes' ~ 'Mine closure',
+			T ~ NA_character_
+		),
+		generator_simple = case_when(
+			generator_closure == 'Yes' ~ 'Generator closure',
+			T ~ NA_character_
+		),
+		adjacent_simple = case_when(
+			adjacent_to_closure == 'Yes' ~ 'Adjacent to closure',
+			T ~ NA_character_
+		),
 	) %>%
-	select(dataset_name, observation_id, census_geoid, starts_with('is_'))
+	select(dataset_name, observation_id, census_geoid, mine_simple, generator_simple, adjacent_simple) %>%
+	gather(string, value, -dataset_name, -observation_id, -census_geoid) %>%
+	drop_na(value) %>%
+	group_by(dataset_name, observation_id, census_geoid) %>%
+	summarize(info = str_flatten(value, collapse = ': ')) %>%
+	ungroup
+	
+CoalClosures %>%
+	skim
 
 #### Fossil Fuel Employment ####
 # Note that this also includes metropolitan statistical areas, 
@@ -79,16 +87,17 @@ FossilFuels <-
 		dataset_name = 'clean_energy_tax_credit__fossil_fuels',
 		observation_id = str_c(dataset_name, rowid, sep = '_'),
 		ffe = case_when(
-			ffe_qual_status == 'Yes' ~ 'Yes: County is within a MSA or non-MSA that meets the 0.17 percent threshold for fossil fuel employment (ffe) as of June 7, 2024',
-			ffe_qual_status == 'No' ~ 'No: County is not within a MSA or non-MSA that meets the 0.17 percent threshold for fossil fuel employment (ffe) as of June 7, 2024',
+			ffe_qual_status == 'Yes' ~ 'FFE Yes: County is within a MSA or non-MSA that meets the 0.17 percent threshold for fossil fuel employment (ffe) as of June 7, 2024',
+			ffe_qual_status == 'No' ~ 'FFE No: County is not within a MSA or non-MSA that meets the 0.17 percent threshold for fossil fuel employment (ffe) as of June 7, 2024',
 			TRUE ~ NA_character_
 		),
 		ec = case_when(
-			ec_qual_status == 'Yes' ~ 'Yes: County is within a MSA or non-MSA that meets both the 0.17 percent threshold for fossil fuel employment, and the unemployment rate requirement as of June 7, 2024.',
-			ec_qual_status == 'No' ~ 'No: County is not within a MSA or non-MSA that meets both the 0.17 percent threshold for fossil fuel employment, and the unemployment rate requirement as of June 7, 2024.',
+			ec_qual_status == 'Yes' ~ 'EC Yes: County is within a MSA or non-MSA that meets both the 0.17 percent threshold for fossil fuel employment, and the unemployment rate requirement as of June 7, 2024.',
+			ec_qual_status == 'No' ~ 'EC No: County is not within a MSA or non-MSA that meets both the 0.17 percent threshold for fossil fuel employment, and the unemployment rate requirement as of June 7, 2024.',
 			TRUE ~ NA_character_
 	)) %>%
-	select(dataset_name, observation_id, state_fips, county_fips, ffe, ec)
+	select(dataset_name, observation_id, state_fips, county_fips, ffe, ec) %>%
+	unite('label', c('ffe', 'ec'), sep = ': ', remove = T)
 
 #### Write to disk ####
 

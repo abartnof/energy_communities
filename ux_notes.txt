@@ -1,0 +1,96 @@
+UX Notes
+Monday, September 23, 2024
+
+highlight state and county
+add clean investment monitor data
+add filter to top for dataset
+look for dashboards that mix granularities eg some data is state and some is census, see how this works
+
+
+Thursday, October 3, 2024
+click on county- drill in to what's actually there
+ability to roll up to county level on map-- because state is too broad to make an impact
+we want to find places with lots of manufacturing, and existing energy infrastructure
+
+number of factories isn't relevant-- it's size of investment in USD or number of jobs
+consider this: https://utilitytransitionhub.rmi.org/ira-sites-map/ as an example of successful points on a map
+
+we want TWO DOTS overlayed, in terms of 2 metrics each:
+1. clean repowering map (color should be type of renewable that's most cost effective, and size is potential MwH?)
+2. clean investment monitor (manufacturing type, eg battery/solar, and then size of investment
+
+msg maria or alex on the IRA data set
+
+
+###########################
+# Monday, October 14 2024 #
+###########################
+
+Friday we'll talk through the tool as it stands-- what it does, and why it does it. so think about that the next few days
+verify that we can't have two dots that mean different things (pink large means one thing, blue large means another)? chat with google
+
+add tables to the bottom, one for CIM, one for CR
+manufacturing_energy_and_industry_facility_metadata:
+manufacturing is what we're really interested in here (don't change anything as is just know that that's what we're interested in)
+make the rollover more informative (eg Mw, county, state, company name, $ invested, etc-- go gonzo)
+
+make the colors more informative wrt clean investment monitor-- not just 2 datasets
+the normalized dots aren't informative-- they need to be really representative
+
+
+bug: manufacturing: batteries isn't showing up
+try to do this sooner than later so they have time to use the dashboard in advance of our mtg so we can speak with intention
+i can ping jeremy via text through wednesday, teams from thursday on
+
+
+###########################
+# Monday, October 18 2024 #
+###########################
+
+Meeting with Jeremy, Uday, and Alex
+
+wrt the virtuous cycle:
+what needs to be true for an anchor to exist, and what sequencing needs to be there
+each step in the virtuous cycle relies on a relationship, which is geographicly defined
+energy communities should be included-- kind of overlaps with clean repowering
+
+1. high quality resources
+2. clean growth tool, iwg, etc
+
+so for each relationship, we need KIND of each diad, and QUANTITY of each diad, and then DISTANCE 
+these diads may also have a TIME LAG
+
+this doesn't have to be defined as a triangle-- we can just define a set of metrics for any given area, and then find areas where there's a lot of high metrics
+
+TODO:
+metrics are defined as quantities that are essential/relevant for each step in the virtuous cycle
+
+within a given region (economic development districts/zone), we want metrics:
+	ability to zoom out to larger areas of aggregation too. county? state? adjacent MSAs?
+gigawatts of clean capacity
+dollars of investments
+(in the future: datacenters? semiconductor manufacturing?)
+
+export as table, map, whatever
+
+define each step of the virtuous cycle as a relationship of supply chain features (TODO)
+rank regions in terms of these combos of features
+find absolute ranking
+
+we'll define an area as competitive if it has a combo of a few metrics
+
+the data shows potential of an area being fertile-- the story describes how this will snowball into success
+
+aggregation levels:
+EDD
+County
+State
+
+
+
+
+
+
+
+
+
